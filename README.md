@@ -48,7 +48,7 @@
 
 ### 安装指南
 
-将Madoka Blog System里的文件移动至网站主目录，使用datebase里的madoka_blog_system.sql创建数据库，修改config.php文件
+将Madoka Blog System里的文件移动至网站主目录，使用database里的madoka_blog_system.sql创建数据库，修改config.php文件
 ```php
 // config.php
 <?php
