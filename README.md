@@ -4,9 +4,9 @@
 
 ### 介绍
 
-- 开发的运行环境：xampp
-- 测试的运行环境：localhost，cpanel虚拟主机
-- 开源框架：[mdui](https://github.com/zdhxiong/mdui)
+- 开发环境：xampp
+- 测试环境：localhost，cpanel虚拟主机
+- 开源：[mdui](https://github.com/zdhxiong/mdui)，[translate-widget](https://github.com/icealgagan/translate-widget)
 - 语言：html5，js，php，mysql
 - 兼容：Ie10+，Chrome，Edge，Safari，Firefox
 - 响应：iPhone X，iPad
