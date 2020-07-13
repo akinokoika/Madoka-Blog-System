@@ -1,0 +1,83 @@
+# Madoka Blog System
+
+一个基于mdui的博客系统，拥有基本的论坛功能
+
+### 介绍
+
+- 开发的运行环境：xampp
+- 测试的运行环境：localhost，cpanel虚拟主机
+- 开源框架：[mdui](https://github.com/zdhxiong/mdui)
+- 语言：html5，js，php，mysql
+- 兼容：Ie10+，Chrome，Edge，Safari，Firefox
+- 响应：iPhone X，iPad
+
+### 基本功能
+
+- 登录，注册，注销，游客
+- 响应式设计
+- 侧边栏
+- 查看，添加，修改，删除，搜索文章
+- 查看，添加，删除评论
+- 查看，设置个人信息
+- 查看相册，上传图片
+- 关注，搜索用户
+- 等级，经验，积分
+- 修改密码
+
+### 更多功能
+
+- 验证码
+- 日历签到
+- 最新文章与用户
+- 特殊主题的背景，侧边栏，图标，卡片
+- 视频与音乐
+- 商城购买主题
+- 公告与发送私信
+
+### 国际化
+
+- 中英文网站首页
+
+### 无障碍
+
+- 验证码语音
+
+### 目录结构
+
+```
+Madoka Blog System/
+├── index.php
+├── config.php
+├── video.html
+├── shopping.html
+├── info.php
+├── message.php
+├── upload.php
+├── mdui/
+│   └── ...
+├── base/
+│   ├── login.html
+│   ├── register.html
+│   └── ...
+├── ajax/
+│   └── index.php
+│   └── ...
+├── face/
+│   └── ...
+├── images/
+│   └── touhou/
+│   │   └── bg_touhou.jpg
+│   │   └── ...
+│   └── favicon.ico
+│   └── ...
+├── js/
+│   └── province.js
+│   └── translate.js
+├── language/
+│   └── language.ini
+│   └── ...
+├── movie/
+│   └── Puella_Magi_Madoka.mp4
+│   └── ...
+└── upload/
+```

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>video</title>
+	<meta name="description" content="至今为止和魔女战斗的大家，相信希望的魔法少女，我不想再让她们哭泣，希望她们都能笑着到最后。任何妨碍这些的法则，我会打破它，重写它！" />
+    <meta name="keywords" content="次页面，鹿目圆，博客，文章，我最好的朋友" />
+    <meta content="这就是我的祈愿，我的愿望！来，实现它吧！" />
+	<link rel="stylesheet" type="text/css" href="./mdui/css/mdui.css">
+    <link rel="stylesheet" type="text/css" href="./mdui/css/mdui.min.css">
+    <script src="./mdui/js/mdui.js"></script>
+	<script src="./mdui/js/mdui.min.js"></script>
+    <script>var $$ = mdui.JQ;</script>
+    <style>
+		.bg{
+			height: 100%;
+			width: 100%;
+			background: url('./images/bg9.jpg') no-repeat;
+			background-size: cover;
+			position: absolute;
+		}
+		.touhou_bg{
+			height: 100%;
+			width: 100%;
+			background: url('./images/touhou/bg_touhou.jpg') no-repeat;
+			background-size: cover;
+			position: absolute;
+		}
+		.touhou_bg2{
+			height: 100%;
+			width: 100%;
+			background: url('./images/touhou/bg2_touhou.jpg') no-repeat;
+			background-size: cover;
+			position: absolute;
+		}
+	</style>
+</head>
+<body id="theme_body" class="">
+<div class="mdui-container">
+	<div class="mdui-row mdui-p-a-2" id="tab3-content">
+		<div class="mdui-col-xs-12">
+
+        <div class="mdui-appbar">
+        <div class="mdui-toolbar mdui-color-theme">
+            <a class="mdui-typo-title">视频音乐</a>
+            <div class="mdui-toolbar-spacer"></div>
+        </div>
+        <div class="mdui-tab mdui-color-theme-300" mdui-tab>
+				<a id="info_tab1" href="#tab1" class="mdui-ripple mdui-ripple-white">视频</a>
+				<a id="info_tab2" href="#tab2" class="mdui-ripple mdui-ripple-white">音乐</a>
+				<a href="index.php" class="mdui-ripple mdui-ripple-white">返回首页</a>
+			</div>
+        </div>
+        
+			<div id="tab1" class="mdui-color-theme-50">
+                <div class="mdui-tab mdui-tab-full-width" mdui-tab>
+                    <a href="#video-tab1" class="mdui-ripple">魔法少女小圆</a>
+                    <a id="touhou_video" href="#video-tab2" class="mdui-ripple" hidden>东方系列</a>
+                </div>
+                <div id="video-tab1" class="mdui-p-a-2">
+                    <div class="mdui-row mdui-typo">
+                        <div class="mdui-col-xs-12">
+                            <video class="mdui-video-fluid" controls>
+                                <source src="./movie/Puella_Magi_Madoka.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                <div id="video-tab2" class="mdui-p-a-2">
+                    <div class="mdui-row mdui-typo">
+                        <div class="mdui-col-xs-12">
+                            <div class="mdui-video-container" style="margin: 20px;">
+                                <iframe src="//player.bilibili.com/player.html?aid=370108634&bvid=BV1vZ4y1j7jf&cid=169830387&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<div id="tab2" class="mdui-color-theme-50">
+				<div class="mdui-row mdui-typo">
+					<div class="mdui-col-xs-12">
+						<div style="margin: 20px;">
+							<button onclick="play_music()" class="mdui-btn mdui-color-theme-accent mdui-ripple">発熱巫女~ず - Memories：Overflow</button>
+							<div style="margin-top: 10px;">
+								<audio id="music" src="./movie/発熱巫女~ず - Memories：Overflow.mp3" controls="controls" loop="loop"></audio>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+        function getUrlParam(key) {
+            // 获取参数
+            var url = window.location.search;
+            // 正则筛选地址栏
+            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            // 匹配目标参数
+            var result = url.substr(1).match(reg);
+            //返回参数值
+            return result ? decodeURIComponent(result[2]) : null;
+        }
+
+        // 设置主题
+        function set_theme(){
+            var theme = getUrlParam("theme");
+            document.getElementsByTagName("body")[0].classList.add("mdui-theme-primary-"+theme);
+            document.getElementsByTagName("body")[0].classList.add("mdui-theme-accent-"+theme);
+        }
+        window.onload = set_theme();
+
+        function theme_ajax(){
+            var nickname = getUrlParam("nickname");
+            $$.ajax({
+                method: 'GET',
+                url: './ajax/theme_sel.php',
+                data: {
+                    name: nickname
+                },
+                success: function (data) {
+                    var rst = JSON.parse(data);
+                    if(rst == "粉色"){
+						$$('#theme_body').addClass('bg');
+					}
+					if(rst == "东方系列"){
+                        $$('#touhou_video').prop('hidden',false);
+						var nickname = getUrlParam("nickname");
+                        $$.ajax({
+                            method: 'GET',
+                            url: './ajax/touhou_sel.php',
+                            data: {
+                                name: nickname
+                            },
+                            success: function (data) {
+                                var rst = JSON.parse(data);
+                                if(rst=="bg1"){
+									$$('#theme_body').addClass('touhou_bg');
+								}else{
+									$$('#theme_body').addClass('touhou_bg2');
+								}
+                            }
+                        });
+					}
+                }
+            });
+		}
+		window.onload = theme_ajax();
+		
+		function play_music(){
+			var music = document.getElementById('music');
+			if(music.paused){
+				music.play();
+			}else{
+				music.pause();
+			}
+		}
+	</script>
+</div>
+</body>
+</html>

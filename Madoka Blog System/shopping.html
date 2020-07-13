@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>info</title>
+	<link rel="stylesheet" type="text/css" href="./mdui/css/mdui.css">
+    <link rel="stylesheet" type="text/css" href="./mdui/css/mdui.min.css">
+    <script src="./mdui/js/mdui.js"></script>
+	<script src="./mdui/js/mdui.min.js"></script>
+    <script>var $$ = mdui.JQ;</script>
+    <style>
+		.bg{
+			height: 100%;
+			width: 100%;
+			background: url('./images/bg9.jpg') no-repeat;
+			background-size: cover;
+			position: absolute;
+		}
+		.touhou_bg{
+			height: 100%;
+			width: 100%;
+			background: url('./images/touhou/bg_touhou.jpg') no-repeat;
+			background-size: cover;
+			position: absolute;
+		}
+		.touhou_bg2{
+			height: 100%;
+			width: 100%;
+			background: url('./images/touhou/bg2_touhou.jpg') no-repeat;
+			background-size: cover;
+			position: absolute;
+		}
+	</style>
+</head>
+<body id="theme_body" class="">
+<div class="mdui-container">
+	<div class="mdui-row mdui-p-a-2" id="tab3-content">
+		<div class="mdui-col-xs-12">
+
+        <div class="mdui-appbar">
+        <div class="mdui-toolbar mdui-color-theme">
+            <a class="mdui-typo-title">商城</a>
+            <div class="mdui-toolbar-spacer"></div>
+            <span onclick="points_show()" style="cursor: pointer;">当前积分：
+                <span id="points_int"></span>
+            </span>
+        </div>
+        <div class="mdui-tab mdui-color-theme-300" mdui-tab>
+				<a id="info_tab1" href="#example5-tab1" class="mdui-ripple mdui-ripple-white">主题</a>
+				<a id="info_tab2" href="#example5-tab2" class="mdui-ripple mdui-ripple-white">道具</a>
+				<a href="index.php" class="mdui-ripple mdui-ripple-white">返回首页</a>
+			</div>
+        </div>
+        
+			<div id="example5-tab1" class="mdui-color-theme-50">
+                <div class="mdui-row mdui-typo">
+                    <div class="mdui-col-xs-11">
+                    <div class="mdui-panel" mdui-panel style="margin: 8px;">
+                        <div class="mdui-panel-item mdui-color-theme-100">
+                            <div class="mdui-panel-item-header">东方系列</div>
+                            <div class="mdui-panel-item-body" style="padding: 1px">
+                                <div class="mdui-row-sm-4 mdui-row-md-5 mdui-row-lg-6 mdui-row-xl-7 mdui-grid-list" style="margin: 5px;">
+                                    <div class="mdui-col">
+                                        <div class="mdui-grid-tile">
+                                            <img src="images/touhou/bg_touhou.jpg"/>
+                                            <div class="mdui-grid-tile-actions mdui-grid-tile-actions-top">
+                                                <div class="mdui-grid-tile-text">
+                                                    <div class="mdui-grid-tile-title">背景1</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mdui-col">
+                                        <div class="mdui-grid-tile">
+                                            <img src="images/touhou/bg2_touhou.jpg"/>
+                                            <div class="mdui-grid-tile-actions mdui-grid-tile-actions-top">
+                                                <div class="mdui-grid-tile-text">
+                                                    <div class="mdui-grid-tile-title">背景2</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mdui-col">
+                                    <div class="mdui-grid-tile">
+                                            <a style="cursor: pointer;" onmouseover="pic_loop_test(this)" onmouseout="pic_loop_stop()">
+                                                <img src="images/touhou/drawer1_touhou.jpg"/>
+                                            </a>
+                                            <div class="mdui-grid-tile-actions mdui-grid-tile-actions-top">
+                                                <div class="mdui-grid-tile-text">
+                                                    <div class="mdui-grid-tile-title">侧边栏</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mdui-col">
+                                    <div class="mdui-grid-tile">
+                                            <a style="cursor: pointer;" onmouseover="pic_loop_test2(this)" onmouseout="pic_loop_stop2()">
+                                                <img src="images/touhou/icon1_touhou.jpg"/>
+                                            </a>
+                                            <div class="mdui-grid-tile-actions mdui-grid-tile-actions-top">
+                                                <div class="mdui-grid-tile-text">
+                                                    <div class="mdui-grid-tile-title">图标</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mdui-col">
+                                        <div class="mdui-grid-tile">
+                                            <img src="images/touhou/card_touhou_show.jpg"/>
+                                            <div class="mdui-grid-tile-actions mdui-grid-tile-actions-top">
+                                                <div class="mdui-grid-tile-text">
+                                                    <div class="mdui-grid-tile-title">卡片</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="mdui-col-xs-12">
+                            <div class="mdui-chip mdui-color-theme-100">
+                                <span class="mdui-chip-title">需要 99 积分</span>
+                            </div>
+                            <button style="margin: 10px;" onclick="buy_theme()" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">购买</button>
+                            
+                            <button mdui-dialog="{target: '#copyright-1'}" mdui-tooltip="{content: '版权帮助'}" style="margin-top: 5px;" class="mdui-float-right mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon material-icons">help_outline</i></button>
+                            <div class="mdui-dialog" id="copyright-1">
+                                <div class="mdui-dialog-title">东方主题版权信息</div>
+                                    <div class="mdui-dialog-content mdui-typo">
+                                        <ul>
+                                        <li>背景1：73594739</li>
+                                        <li>背景2：74701850</li>
+                                        <li>侧边栏：54262246</li>
+                                        <li>图标：28659330</li>
+                                        <li>卡片：57581810</li>
+                                        </ul>
+                                    </div>
+                                    <div class="mdui-dialog-actions">
+                                    <button class="mdui-btn mdui-ripple" mdui-dialog-close>确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+			<div id="example5-tab2" class="mdui-color-theme-50">
+				<div class="mdui-row mdui-typo">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+        function getUrlParam(key) {
+            // 获取参数
+            var url = window.location.search;
+            // 正则筛选地址栏
+            var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+            // 匹配目标参数
+            var result = url.substr(1).match(reg);
+            //返回参数值
+            return result ? decodeURIComponent(result[2]) : null;
+        }
+
+        // 当前积分
+        function points_show(){
+            var xmlhttp = new XMLHttpRequest;
+            var nickname = getUrlParam("nickname");
+            xmlhttp.open("GET","./ajax/points_sel.php?name="+nickname);
+            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function(){
+                if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                    var rst = JSON.parse(xmlhttp.responseText);
+                    document.getElementById("points_int").innerText = rst;
+                }
+            }
+        }
+        window.onload = points_show();
+
+        // 设置主题
+        function set_theme(){
+            var theme = getUrlParam("theme");
+            document.getElementsByTagName("body")[0].classList.add("mdui-theme-primary-"+theme);
+            document.getElementsByTagName("body")[0].classList.add("mdui-theme-accent-"+theme);
+        }
+        window.onload = set_theme();
+
+        function theme_ajax(){
+			var xmlhttp = new XMLHttpRequest;
+			var nickname = getUrlParam("nickname");
+			xmlhttp.open("GET","./ajax/theme_sel.php?name="+nickname);
+			xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xmlhttp.send();
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+					var rst = JSON.parse(xmlhttp.responseText);
+					if(rst == "粉色"){
+						$$('#theme_body').addClass('bg');
+					}
+					if(rst == "东方系列"){
+						var xmlhttp2 = new XMLHttpRequest;
+						var nickname = getUrlParam("nickname");
+						xmlhttp2.open("GET","./ajax/touhou_sel.php?name="+nickname);
+						xmlhttp2.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+						xmlhttp2.send();
+						xmlhttp2.onreadystatechange = function(){
+							if(xmlhttp2.readyState == 4 && xmlhttp2.status == 200){
+								var rst = JSON.parse(xmlhttp2.responseText);
+								if(rst=="bg1"){
+									$$('#theme_body').addClass('touhou_bg');
+								}else{
+									$$('#theme_body').addClass('touhou_bg2');
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		window.onload = theme_ajax();
+
+        // 购买主题，目前仅支持购买东方主题
+        function buy_theme(){
+            var xmlhttp = new XMLHttpRequest;
+            var nickname = getUrlParam("nickname");
+            var points = 99;
+            xmlhttp.open("GET","./ajax/theme_buy.php?name="+nickname+"&points="+points);
+            xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function(){
+                if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                    var rst = JSON.parse(xmlhttp.responseText);
+                    mdui.alert(rst);
+                    if(rst == "购买成功"){
+                        points_show();
+                    }
+                }
+            }
+        }
+
+        // 鼠标轮播
+        var loop1;
+        function pic_loop_test(obj){
+            var img = $$(obj).find('img');
+            loop1 = setInterval(function(){
+                var img_src =  $$(img).attr('src');
+	            var num = img_src.split("drawer")[1].split("_")[0];
+                if(num=="5"){
+                    var t = 1;
+                }else{
+                    var t = parseInt(num)+1;
+                }
+                $$(img).attr('src', "images/touhou/drawer"+t.toString()+"_touhou.jpg");
+            },1000);
+        }
+        function pic_loop_stop(){
+            clearInterval(loop1);
+        }
+
+        var loop2;
+        function pic_loop_test2(obj){
+            var img = $$(obj).find('img');
+            loop2 = setInterval(function(){
+                var img_src =  $$(img).attr('src');
+	            var num = img_src.split("icon")[1].split("_")[0];
+                if(num=="3"){
+                    var t = 1;
+                }else{
+                    var t = parseInt(num)+1;
+                }
+                $$(img).attr('src', "images/touhou/icon"+t.toString()+"_touhou.jpg");
+            },1000);
+        }
+        function pic_loop_stop2(){
+            clearInterval(loop2);
+        }
+	</script>
+</div>
+</body>
+</html>
