@@ -11,7 +11,7 @@
 	$age=intval($_POST["age"]);
 	$mess=$_POST["mess"];
 
-	$card = "../images/bg10.jpg";
+	$card = "./images/bg10.jpg";
 	 
 	// 创建连接
 	$conn = new mysqli($servername, $username, $password, $dbname);
