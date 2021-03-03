@@ -37,6 +37,8 @@
 - 视频与音乐
 - 商城购买主题
 - 公告与发送私信
+- 管理员：创建的第一个账号
+- 小黑屋：禁止发表文章和评论
 
 ### 国际化
 
@@ -48,7 +50,7 @@
 
 ### 安装指南
 
-将Madoka Blog System里的文件移动至网站主目录，使用database里的madoka_blog_system.sql创建数据库，修改config.php文件
+将Madoka Blog System里的文件移动至网站主目录，在mysql创建数据库然后使用database里的madoka_blog_system.sql创建表，修改config.php文件
 ```php
 // config.php
 <?php

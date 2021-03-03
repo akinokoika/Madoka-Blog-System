@@ -22,6 +22,17 @@
 		echo "<script>alert('用户已经存在');location.href='register.html';</script>";
 	}
 	else{
+		// 判断是否创建管理员
+		$search2 = "select * from user";  	
+		$result2 = $conn->query($search2);
+		if(mysqli_num_rows($result2) == 0)
+		{
+			$sql4 = "INSERT INTO admin(username, nickname) VALUES ('$username','$nickname')";
+			if ($conn->query($sql4) === TRUE) {
+				$stradmin = "，欢迎，管理员！";
+			}
+		}
+
 		// 密码加密散列
 		$encryption_pass = password_hash($password,PASSWORD_BCRYPT);
 
@@ -32,9 +43,10 @@
 			
 			if ($conn->query($sql2) === TRUE) {
 				$sql3 = "INSERT INTO theme(nickname,theme,touhou,touhoubg) VALUES ('$nickname','默认',0,0)";
-				
+
 				if ($conn->query($sql3) === TRUE) {
-					echo "<script>alert('注册成功');location.href='login.html';</script>";
+					echo "<script>alert('".$nickname."，注册成功".$stradmin."');location.href='login.html';</script>";
+
 				} else {
 					echo "<script>alert('注册失败');location.href='register.html';</script>";
 				}

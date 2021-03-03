@@ -11,6 +11,14 @@
 	$nickname=$_POST["nickname"];
 	$title=$_POST["title"];
 	$comment=$_POST["comment"];
+
+	$sql_ban = "select * from blackbox where nickname='$nickname'";
+	$result_ban = $conn->query($sql_ban);
+	
+	if ($result_ban->num_rows > 0) {
+		echo "<script>alert('您已被关进小黑屋，无法发表评论，请联系管理员了解更多信息');location.href='../index.php';</script>";
+		exit();
+	}
 	
 	// 查询今天是否发表过评论
 	$date = date('Y-m-d',time());

@@ -3,13 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主机： 127.0.0.1
--- 生成日期： 2020-07-12 16:33:04
+-- 生成日期： 2021-03-02 20:42:45
 -- 服务器版本： 10.4.11-MariaDB
 -- PHP 版本： 7.4.5
 
---
--- Madoka Blog System
---
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -23,6 +20,41 @@ SET time_zone = "+00:00";
 --
 -- 数据库： `madoka_blog_system`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `admin`
+--
+
+CREATE TABLE `admin` (
+  `username` varchar(128) NOT NULL,
+  `nickname` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- 转存表中的数据 `admin`
+--
+
+INSERT INTO `admin` (`username`, `nickname`) VALUES
+('admin', 'akinokoika');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `blackbox`
+--
+
+CREATE TABLE `blackbox` (
+  `nickname` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- 转存表中的数据 `blackbox`
+--
+
+INSERT INTO `blackbox` (`nickname`) VALUES
+('akinokoika');
 
 -- --------------------------------------------------------
 
@@ -64,6 +96,14 @@ CREATE TABLE `essay` (
   `nickname` varchar(64) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- 转存表中的数据 `essay`
+--
+
+INSERT INTO `essay` (`id`, `title`, `content`, `thumbs`, `nickname`, `date`) VALUES
+(36, '1', '1<img src=\"./face/1.png\">', 0, 'akinokoika', '2021-03-02 23:50:01'),
+(37, '2', '23<img src=\"./face/2.png\">', 0, '测试用户', '2021-03-02 23:51:02');
 
 -- --------------------------------------------------------
 
@@ -117,6 +157,14 @@ CREATE TABLE `points` (
   `lv` int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- 转存表中的数据 `points`
+--
+
+INSERT INTO `points` (`id`, `nickname`, `points`, `experience`, `lv`) VALUES
+(1, 'akinokoika', 0, 5, 1),
+(2, '测试用户', 0, 5, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -130,6 +178,14 @@ CREATE TABLE `theme` (
   `touhou` int(32) NOT NULL,
   `touhoubg` int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- 转存表中的数据 `theme`
+--
+
+INSERT INTO `theme` (`id`, `nickname`, `theme`, `touhou`, `touhoubg`) VALUES
+(1, 'akinokoika', '粉色', 0, 0),
+(2, '测试用户', '默认', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -168,6 +224,14 @@ CREATE TABLE `user` (
   `password` varchar(64) NOT NULL COMMENT '密码',
   `nickname` varchar(64) NOT NULL COMMENT '昵称'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- 转存表中的数据 `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `password`, `nickname`) VALUES
+(1, 'admin', '$2y$10$n6Mled8ISp5ShDMoLMRLX.yzehFemMiRBI5TLp5ZVnggE.wNCkkg2', 'akinokoika'),
+(2, 'test', '$2y$10$KFq.3k97ZNXUMJzaqXsG0eHURvKbsmQADUDswIh/NbWWFpjK8ZRyO', '测试用户');
 
 -- --------------------------------------------------------
 
@@ -285,7 +349,7 @@ ALTER TABLE `comment`
 -- 使用表AUTO_INCREMENT `essay`
 --
 ALTER TABLE `essay`
-  MODIFY `id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- 使用表AUTO_INCREMENT `follow`
@@ -309,13 +373,13 @@ ALTER TABLE `message`
 -- 使用表AUTO_INCREMENT `points`
 --
 ALTER TABLE `points`
-  MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `theme`
 --
 ALTER TABLE `theme`
-  MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `thumbs`
@@ -333,7 +397,7 @@ ALTER TABLE `uploads`
 -- 使用表AUTO_INCREMENT `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(64) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=18;
+  MODIFY `id` int(64) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'id', AUTO_INCREMENT=3;
 
 --
 -- 使用表AUTO_INCREMENT `userinfo`

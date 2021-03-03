@@ -11,7 +11,7 @@
 	}
 	mysqli_set_charset($conn,"utf8");
 	
-	$sql = "delete from comment where comment='$comment' ";
+	$sql = "delete from comment where comment='$comment'";
 	 
 	if ($conn->query($sql) === TRUE) {
 		echo "<script>alert('评论删除成功');location.href='../index.php';</script>";

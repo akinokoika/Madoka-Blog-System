@@ -71,6 +71,7 @@
 				<label class="mdui-textfield-label">昵称</label>
 				<input class="mdui-textfield-input" type="text" name="nickname" required/>
 				<div class="mdui-textfield-error">昵称不能为空</div>
+				<div class="mdui-textfield-helper">昵称和账号均是唯一的，建议保持一致</div>
 			</div>
 			
 			<div class="mdui-row">
@@ -143,7 +144,7 @@
 			var id = decodeURI(loc.substr(n2+1, n1-n2));//从=号后面的内容
 			//alert(id);
 		}else{
-			document.getElementById("item").disabled = true;
+			// document.getElementById("item").disabled = true;
 		}
 		
 		// 验证码

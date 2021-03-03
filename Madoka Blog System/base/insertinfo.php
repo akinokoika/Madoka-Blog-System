@@ -34,7 +34,7 @@
 			}
 		}
 	} else {
-		$sql = "insert into userinfo (nickname, pic, email, bday, city, sex, qq, age, mess, card) 
+		$sql = "insert into userinfo (nickname, pic, email, bday, city, sex, qq, age, mess, card)
 		values ('$nickname', '$pic', '$email', '$bday', '$city', '$sex', $qq, $age, '$mess', '$card')";
 		 
 		if ($conn->query($sql) === TRUE) {

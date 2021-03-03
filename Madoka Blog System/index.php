@@ -1,5 +1,5 @@
 <!--
-
+github:https://github.com/akinokoika/Madoka-Blog-System.git
 -->
 <?php
 session_start();
@@ -22,7 +22,6 @@ if (!$_SESSION['nickname']) {
     <script src="./mdui/js/mdui.js"></script>
 	<script src="./mdui/js/mdui.min.js"></script>
 	<script src="./js/translate.js"></script>
-	<script src="./js/province.js" charset="utf-8"></script>
 	<script>var $$ = mdui.JQ;</script>
 	<style>
 	.mdui-table th,
@@ -259,7 +258,7 @@ if (!$_SESSION['nickname']) {
 	</ul>
 </div>
 
-<span id="welcome2">欢迎，当前状态：</span><span id="nickname"><?php echo $_SESSION['nickname'] ?></span>
+<span id="welcome2">欢迎，<span class="admin_show" hidden>管理员：</span><span class="admin_hidden">当前状态：</span></span><span id="nickname"><?php echo $_SESSION['nickname'] ?></span>
 <a id="logout_bg" onclick="logout()" class="theme_class">注销</a>
 <a id="switch_bg" class="theme_class" mdui-dialog="{target: '#theme_dialog'}">切换主题</a>
 <a id="show_bg" onclick="only_show_bg(this)" class="theme_class"  style="display:none" >只看背景</a>
@@ -1435,7 +1434,7 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 			</div>
 			<div id="example3-tab2">
 				<form id="form2" action="./base/update.php" method="post" onsubmit="return verify_insert()">
-					<ul><li><small>只能修改<strong><span id="update_nickname_alert"></span></strong>的文章</small></li></ul>
+					<ul class="admin_hidden"><li><small>只能修改<strong><span id="update_nickname_alert"></span></strong>的文章</small></li></ul>
 					<script>
 						var nickname=document.getElementById("nickname").innerHTML;
 						document.getElementById("update_nickname_alert").innerText=nickname;
@@ -1448,17 +1447,26 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 					$nickname=$_SESSION['nickname'];
 					$conn = mysqli_connect($servername, $username, $password, $dbname);
 					mysqli_set_charset($conn,"utf8");
-					$sql= "select title from essay where nickname='$nickname'";//sql语句
+
+					$sql = "select * from admin where nickname='$nickname'";
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) {
+						$sql= "select title from essay";
+					} else {
+						$sql= "select title from essay where nickname='$nickname'";
+					}
+
 					$result = mysqli_query($conn, $sql);
 					if (mysqli_num_rows($result) > 0)
 					while($row = mysqli_fetch_assoc($result))
-					  {
-						echo "<option value='$row[title]'>$row[title]</option>";//循环，拼凑下拉框选项
-					  } 
+					{
+						echo "<option value='$row[title]'>$row[title]</option>";
+					} 
 					$conn->close();
 					?>
 					</select>
-					<input onclick="insert_get_content()" class="mdui-btn mdui-ripple mdui-color-indigo-accent" style="margin-left: 10px;" type="button" value="读取内容" readonly>
+					<input onclick="insert_get_content('user')" class="mdui-btn mdui-ripple mdui-color-indigo-accent admin_hidden" style="margin-left: 10px;" type="button" value="读取内容" readonly>
+					<input onclick="insert_get_content('admin')" class="mdui-btn mdui-ripple mdui-color-indigo-accent admin_show" style="margin-left: 10px;" type="button" value="读取内容" readonly hidden>
 					</p>
 					
 					<div id="meditor2" class="mcont" class="mdui-textfield ">
@@ -1470,8 +1478,8 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 						<div id="div_content2" class="mdui-textfield-input" contenteditable="true"></div>
 					</div>
 				
-					<div class="mdui-textfield">
-						<label class="mdui-textfield-label">内容预览<small style="margin-left: 10px;">仅开发者可见</small></label>
+					<div class="mdui-textfield admin_show" hidden>
+						<label class="mdui-textfield-label">内容预览<small style="margin-left: 10px;">仅开发者或管理员可见</small></label>
 						<textarea class="mdui-textfield-input" id="insert_up_content" name="content" type="text" readonly/></textarea>
 					</div>
 
@@ -1531,8 +1539,8 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 						}
 					}
 
-					// 文章修改读取内容
-					function insert_get_content(){
+					// 用户或管理员进行文章修改读取内容
+					function insert_get_content(sel){
 						var xmlhttp = new XMLHttpRequest;
 						var nickname = document.getElementById("nickname").innerHTML;
 						var id = document.getElementById("title_up");
@@ -1542,15 +1550,37 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 							mdui.alert("请先选择标题");
 							return;
 						}
-						xmlhttp.open("GET","./ajax/title_up_content.php?name="+nickname+"&title="+val);
-						xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-						xmlhttp.send();
-						xmlhttp.onreadystatechange = function(){
-							if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-								var rst = JSON.parse(xmlhttp.responseText);
-								document.getElementById("div_content2").innerHTML = rst;
-								document.getElementById("insert_up_content").value = rst;
-							}
+						switch(sel)
+						{
+							case "user":
+								$$.ajax({
+									method: 'GET',
+									url: './ajax/title_up_content.php',
+									data: {
+										name: nickname,
+										title: val
+									},
+									success: function (data) {
+										var rst = JSON.parse(data);
+										document.getElementById("div_content2").innerHTML = rst;
+										document.getElementById("insert_up_content").value = rst;
+									}
+								});
+								break;
+							case "admin":
+								$$.ajax({
+									method: 'GET',
+									url: './ajax/title_up_content_admin.php',
+									data: {
+										title: val
+									},
+									success: function (data) {
+										var rst = JSON.parse(data);
+										document.getElementById("div_content2").innerHTML = rst;
+										document.getElementById("insert_up_content").value = rst;
+									}
+								});
+								break;
 						}
 					}
 					
@@ -1580,7 +1610,7 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 			</div>
 			<div id="example3-tab3">
 				<form id="form3" action="./base/delete.php" method="post" onsubmit="return verify()">
-					<ul><li><small>只能删除<strong><span id="del_nickname_alert"></span></strong>的文章</small></li></ul>
+					<ul class="admin_hidden"><li><small>只能删除<strong><span id="del_nickname_alert"></span></strong>的文章</small></li></ul>
 					<script>
 						var nickname=document.getElementById("nickname").innerHTML;
 						document.getElementById("del_nickname_alert").innerText=nickname;
@@ -1593,13 +1623,21 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 					$nickname=$_SESSION['nickname'];
 					$conn = mysqli_connect($servername, $username, $password, $dbname);
 					mysqli_set_charset($conn,"utf8");
-					$sql= "select title from essay where nickname='$nickname'";//sql语句
+
+					$sql = "select * from admin where nickname='$nickname'";
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) {
+						$sql= "select title from essay";
+					} else {
+						$sql= "select title from essay where nickname='$nickname'";
+					}
+
 					$result = mysqli_query($conn, $sql);
 					if (mysqli_num_rows($result) > 0)
 					while($row = mysqli_fetch_assoc($result))
-					  {
+					{
 						echo "<option value='$row[title]'>$row[title]</option>";//循环，拼凑下拉框选项
-					  } 
+					} 
 					$conn->close();
 					?>
 					</select>
@@ -1667,13 +1705,13 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 					$nickname=$_SESSION['nickname'];
 					$conn = mysqli_connect($servername, $username, $password, $dbname);
 					mysqli_set_charset($conn,"utf8");
-					$sql= "select title from essay";//sql语句
+					$sql= "select title from essay";
 					$result = mysqli_query($conn, $sql);
 					if (mysqli_num_rows($result) > 0)
 					while($row = mysqli_fetch_assoc($result))
-					  {
+					{
 						echo "<option value='$row[title]'>$row[title]</option>";//循环，拼凑下拉框选项
-					  } 
+					} 
 					$conn->close();
 					?>
 					</select>
@@ -1722,7 +1760,7 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 			</div>
 			<div id="example3-tab6">
 				<form id="form3_5" action="./base/delete2.php" method="post" onsubmit="return verify()">
-					<ul><li><small>只能删除<strong><span id="del2_nickname_alert"></span></strong>的文章的评论</small></li></ul>
+					<ul class="admin_hidden"><li><small>只能删除<strong><span id="del2_nickname_alert"></span></strong>的文章的评论</small></li></ul>
 					<script>
 						var nickname=document.getElementById("nickname").innerHTML;
 						document.getElementById("del2_nickname_alert").innerText=nickname;
@@ -1735,7 +1773,15 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 					$nickname=$_SESSION['nickname'];
 					$conn = mysqli_connect($servername, $username, $password, $dbname);
 					mysqli_set_charset($conn,"utf8");
-					$sql= "select title from essay where nickname='$nickname'";//sql语句
+
+					$sql = "select * from admin where nickname='$nickname'";
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) {
+						$sql= "select title from essay";
+					} else {
+						$sql= "select title from essay where nickname='$nickname'";
+					}
+
 					$result = mysqli_query($conn, $sql);
 					if (mysqli_num_rows($result) > 0)
 					while($row = mysqli_fetch_assoc($result))
@@ -1787,6 +1833,7 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 				<a id="info_tab2" href="#example5-tab4" class="mdui-ripple mdui-ripple-white">朋友圈</a>
 				<a href="#example5-tab5" class="mdui-ripple mdui-ripple-white">经验积分</a>
 				<a href="#example5-tab6" class="mdui-ripple mdui-ripple-white">修改密码</a>
+				<a href="#example5-tab7" class="mdui-ripple mdui-ripple-white admin_show" hidden>小黑屋</a>
 			</div>
 			</div>
 			
@@ -2068,42 +2115,9 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 						<div class="mdui-textfield-helper">使用浏览器支持的日期选择器进行输入</div>
 					</div>
 					
-					<script>
-					// 实现省市区联动
-					window.onload=function(){
-						getProvince();
-					}
-					</script>
-					
-					<div>
-					<p>
-					<select id="province" onchange="chooseProvince(this)" class="mdui-select">
-					<option value="1">请选择省</option>
-					</select>
-					<select id="city" onchange="chooseCity(this)" class="mdui-select">
-					<option value="2">请选择市</option>
-					</select>
-					<select id="area" class="mdui-select">
-					<option value="3">请选择区</option>
-					</select>
-					<button id="citytest" class="mdui-btn mdui-color-light-blue-a100 mdui-ripple">保存</button>
-					</p>
-					</div>
-					
-					<script>
-					// 验证是否输入城市
-						document.getElementById("citytest").onclick = function (){
-							var obj = document.getElementById("city");
-							var txt = obj.options[obj.selectedIndex].text;
-							if(txt=="请选择市") txt="未知";
-							document.getElementById("city2").value = txt;
-							return false;
-						}
-					</script>
-					
-					<div class="mdui-textfield mdui-textfield-floating-label" hidden>
+					<div class="mdui-textfield mdui-textfield-floating-label">
 					<label class="mdui-textfield-label">城市：</label>
-						<input id="city2" value="未知" name="city" class="mdui-textfield-input" type="text" readonly/>
+						<input id="city2" value="未知" name="city" class="mdui-textfield-input" type="text"/>
 					</div>
 					
 					<div style="margin-top:30px">
@@ -2775,6 +2789,61 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 			}
 			</script>
 		</div>
+		<div id="example5-tab7">
+			<div class="mdui-list" id="user_ban_list">
+				<label class="mdui-list-item mdui-ripple">
+					<div class="mdui-list-item-content"><small>用户名</small></div>
+					<label class="mdui-list-item">
+						<div class="mdui-list-item-content" mdui-tooltip="{content: '禁止用户发表文章和评论'}"><small>ban</small></div>
+					</label>
+				</label>
+			</div>
+			<script>
+				function admin_read_user(){
+					var xmlhttp = new XMLHttpRequest;
+					$$.ajax({
+						method: 'GET',
+						url: './ajax/admin_read_user.php',
+						data: {
+						},
+						success: function (data) {
+							var rst = JSON.parse(data);
+							for(i = 0; i<rst.length; i++){
+								str = '<label class="mdui-list-item mdui-ripple"><div class="mdui-list-item-content">'+rst[i]["nickname"]+'</div><label class="mdui-switch" onclick="admin_ban(this)"><input type="checkbox"'+rst[i]["state"]+'/><i class="mdui-switch-icon"></i></label></label>';
+								$$("#user_ban_list").append(str);
+							}
+						}
+					});
+				}
+				window.onload = admin_read_user();
+
+				function admin_ban(obj)
+				{
+					var admin_name = document.getElementById("nickname").innerHTML;
+					var nickname = $$(obj).prev().text();
+					var sel = $$(obj).children('input').prop('checked');
+					if(sel == true){
+						var t = 1;
+					}
+					else{
+						var t = 0;
+					}
+					$$.ajax({
+						method: 'GET',
+						url: './ajax/admin_ban.php',
+						data: {
+							admin_name: admin_name,
+							nickname: nickname,
+							sel: t
+						},
+						success: function (data) {
+							var rst = JSON.parse(data);
+							alert(rst);
+						}
+					});
+				}
+			</script>
+		</div>
 	</div>
 	<script>
 	// 更新图片缓存
@@ -2783,6 +2852,27 @@ document.getElementById('language_dialog').addEventListener('confirm.mdui.dialog
 		window.applicationCache.update();
 	}
 	*/
+
+	// 判断是否是管理员
+	function admin_judge(){
+		var xmlhttp = new XMLHttpRequest;
+		var nickname = document.getElementById("nickname").innerHTML;
+		$$.ajax({
+			method: 'GET',
+			url: './ajax/admin_judge.php',
+			data: {
+				nickname: nickname
+			},
+			success: function (data) {
+				var rst = JSON.parse(data);
+				if(rst == 1){
+					$$('.admin_hidden').prop('hidden', true);
+					$$('.admin_show').prop('hidden', false);
+				}
+			}
+		});
+	}
+	window.onload = admin_judge();
 	</script>
 </div>
 </body>
